@@ -1,4 +1,6 @@
 #pragma once
+#include "MaxHeap.h"
+
 
 namespace MyAlgorithms
 {
@@ -409,6 +411,40 @@ namespace MyAlgorithms
 		srand(time(NULL));
 		__quickSort3Ways(arr, 0, n - 1);
 	}
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//堆排序算法
+	template<typename T>
+	void heapSort(T arr[], int n) {
+		MaxHeap<T> maxheap = MaxHeap<T>(n);
+		//将数组中的元素插入到堆中
+		for (int i = 0; i < n; i++)
+		{
+			maxheap.insert(arr[i]);
+		}
+		for (int i = n-1 ;i >= 0;i--)
+		{
+			arr[i] = maxheap.extractMax();
+		}
+
+	}
+
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//堆排序算法2
+	template<typename T>
+	void heapSort2(T arr[], int n) {
+		MaxHeap<T> maxheap = MaxHeap<T>(arr,n);
+		
+		for (int i = n - 1; i >= 0; i--)
+		{
+			arr[i] = maxheap.extractMax();
+		}
+
+	}
+
 };
 
  

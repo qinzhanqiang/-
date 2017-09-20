@@ -71,7 +71,7 @@ namespace SortTestHelper{
 		//printArray(arr2, n);
 		delete[] arr2;
 		assert(isSorted(arr2, n));
-		cout << sortName << ":" << double(endTime - startTime) / CLOCKS_PER_SEC << endl;
+		cout << sortName << ":" << endl  << double(endTime - startTime) / CLOCKS_PER_SEC << endl;
 		return;
 	}
 
