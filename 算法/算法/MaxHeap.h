@@ -2,6 +2,9 @@
 #include <algorithm>
 #include <string>
 #include <assert.h>
+
+
+
 template<typename Item>
 class MaxHeap
 {
@@ -10,13 +13,15 @@ private:
 	int count;
 	int capcatity;
 
+	int copy_flag = 1;	//判断堆是否拷贝数据，开辟了新的空间，若开辟空间则析构函数中释放空间
+
 	void shiftUp(int k) {
 		while (k> 1 && data[k / 2] < data[k]) {
 			swap(data[k / 2], data[k]);
 			k /= 2;
 		}
 	}
-
+	//当堆从第一个元素开始时调用
 	void shiftDown(int k) {
 		//判断该节点有子节点
 		while (2 * k <= count) {
@@ -33,6 +38,7 @@ private:
 			k = j;
 		}
 	}
+	
 
 	////testprint调用
 	//void putNumberInLine(int num, string &line, int index_cur_level, int cur_tree_width, bool isLeft) {
@@ -72,6 +78,7 @@ public:
 		count = 0;
 		this->capcatity = capacity;
 	};
+	//从1开始构建二叉堆
 	MaxHeap(Item arr[], int n) {
 		data = new Item[n + 1];
 		capcatity = n;
@@ -88,9 +95,41 @@ public:
 			shiftDown(i);
 		}
 	}
+	//从零开始构建二叉堆,zero传入空
+	MaxHeap(Item arr[], int n,bool zero) {		
+		if (zero == false)
+		{
+			copy_flag = 0;
+			data = arr;
+			count = n;
+
+			//将数组整理成二叉堆
+			for (int i = (count - 1) / 2; i >= 0; i--)
+			{
+				shiftDown(n,i,false);
+			}
+		}
+		else {
+			data = new Item[n + 1];
+			capcatity = n;
+			for (int i = 0; i < n; i++)
+			{
+				data[i + 1] = arr[i];
+			}
+			count = n;
+
+			//将数组整理成二叉堆
+			for (int i = count / 2; i >= 1; i--)
+			{
+				shiftDown(i);
+			}
+		}
+		
+	}
 
 	~MaxHeap() {
-		delete[] data;
+		if(copy_flag != 0)
+			delete[] data;
 	};
 
 	int size() 
@@ -100,6 +139,9 @@ public:
 	bool isEmpty() 
 	{ 
 		return count == 0; 
+	}
+	void swapData(int i,int j) {
+		swap(data[i], data[j]);
 	}
 
 	void insert(Item item) {
@@ -173,6 +215,43 @@ public:
 	//		cur_tree_max_level_number /= 2;
 	//	}
 	//}
+	//当堆从第0个元素开始
+	void shiftDown(int n, int k, bool zero) {
+		if (zero == false)		//从零开始时
+		{
+			//判断该节点有子节点
+			while (2 * k + 1 < n) {
+				int j = 2 * k + 1;
+				//判断是否有右子节点，若有右子节点且右子节点大于左子节点，则与右子节点进行交换
+				if (j + 1 < n && data[j + 1] > data[j]) {
+					j += 1;
+				}
 
+				if (data[k] >= data[j])
+					break;
+
+				swap(data[k], data[j]);
+				k = j;
+			}
+		}
+		else {					//从一开始时
+			//判断该节点有子节点
+			while (2 * k <= count) {
+				int j = 2 * k;
+				//判断是否有右子节点，若有右子节点且右子节点大于左子节点，则与右子节点进行交换
+				if (j + 1 <= count&&data[j + 1] > data[j]) {
+					j += 1;
+				}
+
+				if (data[k] >= data[j])
+					break;
+
+				swap(data[k], data[j]);
+				k = j;
+			}
+		}
+		
+		
+	}
 };
 

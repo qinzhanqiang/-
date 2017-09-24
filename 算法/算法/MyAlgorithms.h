@@ -445,6 +445,50 @@ namespace MyAlgorithms
 
 	}
 
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//原地堆排序，空间复杂度小
+	template<typename T>
+	void heapSort3(T arr[], int n) {
+		MaxHeap<T> maxheap = MaxHeap<T>(arr,n,false);
+
+		for (int i = n-1 ;i > 0; i--)
+		{
+			maxheap.swapData(0, i);		//将当前堆中最大的元素与最后一个元素交换
+			maxheap.shiftDown(i,0, false);	//对堆总数为i的第0个元素进行shiftDown操作
+		}
+
+	}
+
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//二分查找法,在有序数组arr中查找target，如果查找到，返回索引，没有查找到返回-1
+	template<typename T>
+	int binarySearch(T arr[], int n, T target) {
+		int l = 0, r = n-1;
+		while (l <= r)
+		{
+			/*int mid = (l + r) / 2;*/
+			int mid = l + (r - l) / 2;
+			if (arr[mid] == target)
+			{
+				return mid;				
+			}
+			if (target < arr[mid])
+			{
+				r = mid - 1;
+
+			}
+			else
+			{
+				l = mid + 1;
+			}
+
+			return -1;
+		}
+	}
 };
 
  

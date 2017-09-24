@@ -1,4 +1,6 @@
 #pragma once
+#include "MaxHeap.h"
+
 class MyUtils
 {
 private:
@@ -424,5 +426,81 @@ public:
 		srand(time(NULL));
 		__quickSort3Ways(arr, 0, n - 1);
 	}
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//堆排序算法
+	template<typename T>
+	void heapSort(T arr[], int n) {
+		MaxHeap<T> maxheap = MaxHeap<T>(n);
+		//将数组中的元素插入到堆中
+		for (int i = 0; i < n; i++)
+		{
+			maxheap.insert(arr[i]);
+		}
+		for (int i = n - 1; i >= 0; i--)
+		{
+			arr[i] = maxheap.extractMax();
+		}
+
+	}
+
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//堆排序算法2
+	template<typename T>
+	void heapSort2(T arr[], int n) {
+		MaxHeap<T> maxheap = MaxHeap<T>(arr, n);
+
+		for (int i = n - 1; i >= 0; i--)
+		{
+			arr[i] = maxheap.extractMax();
+		}
+
+	}
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//原地堆排序，空间复杂度小
+	template<typename T>
+	void heapSort3(T arr[], int n) {
+		MaxHeap<T> maxheap = MaxHeap<T>(arr, n, false);
+
+		for (int i = n - 1; i > 0; i--)
+		{
+			swap(arr[0], arr[i]);		//将当前堆中最大的元素与最后一个元素交换
+			maxheap.shiftDown(i, false);
+		}
+
+	}
+
+	//------------------------------------------------------------------------//
+	//------------------------------------------------------------------------//
+	//二分查找法,在有序数组arr中查找target，如果查找到，返回索引，没有查找到返回-1
+	template<typename T>
+	int binarySearch(T arr[], int n, T target) {
+		int l = 0, r = n - 1;
+		while (l <= r)
+		{
+			/*int mid = (l + r) / 2;*/
+			int mid = l + (r - l) / 2;
+			if (arr[mid] == target)
+			{
+				return mid;
+			}
+			if (target < arr[mid])
+			{
+				r = mid - 1;
+
+			}
+			else
+			{
+				l = mid + 1;
+			}
+
+			return -1;
+		}
+	} 
 };
 
